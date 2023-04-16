@@ -87,7 +87,7 @@ public class SpotifyRepository {
 
         Song song =new Song(title,length);
         songs.add(song);
-        Album albumN = null;
+        Album albumN = new Album();
         for(Album album : albums)
         {
             if(album.getTitle().equals(albumName))
@@ -133,7 +133,7 @@ public class SpotifyRepository {
         }
 
         //user not exist
-        if(user1.equals(null))
+        if(user1==null)
         {
             throw new Exception("User does not exist");
         }
@@ -197,7 +197,7 @@ public class SpotifyRepository {
         }
 
         //user not exist
-        if(user1.equals(null))
+        if(user1==null)
         {
             throw new Exception("User does not exist");
         }
@@ -273,7 +273,7 @@ public class SpotifyRepository {
         }
 
         //user not exist
-        if(user1.equals(null))
+        if(user1==null)
         {
             throw new Exception("User does not exist");
         }
@@ -289,7 +289,7 @@ public class SpotifyRepository {
             }
         }
 
-        if(playlist.equals(null))
+        if(playlist==null)
         {
             throw new Exception("Playlist does not exist");
         }
@@ -328,7 +328,7 @@ public class SpotifyRepository {
         }
 
         //user not exist
-        if(user1.equals(null))
+        if(user1==null)
         {
             throw new Exception("User does not exist");
         }
@@ -344,7 +344,7 @@ public class SpotifyRepository {
             }
         }
 
-        if(song1.equals(null))
+        if(song1==null)
         {
             throw new Exception("Song does not exist");
         }
@@ -383,6 +383,7 @@ public class SpotifyRepository {
                     List<Album> albums = artistAlbumMap.get(artist);
                     for (Album album2 : albums)
                     {
+
                         if(album1.equals(album2))
                         {
                            artist.setLikes(artist.getLikes()+1);
