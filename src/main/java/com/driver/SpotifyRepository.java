@@ -267,7 +267,7 @@ public class SpotifyRepository {
 
 
         //If the user does not exist, throw "User does not exist" exception
-        User user1= null;
+        User user1= new User();
         for(User user : users)
         {
             if(user.getMobile().equals(mobile))
@@ -283,7 +283,7 @@ public class SpotifyRepository {
         }
 
         //Find the playlist with given title and add user as listener of that playlist and update user accordingly
-        Playlist playlist = null;
+        Playlist playlist = new Playlist();
 
         for(Playlist playlist1 : playlists)
         {
