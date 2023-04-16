@@ -335,7 +335,7 @@ public class SpotifyRepository {
 
 
         //If the song does not exist, throw "Song does not exist" exception
-        Song song1 = null;
+        Song song1 =null;
         for(Song song : songs)
         {
             if(song.getTitle().equals(songTitle))
@@ -364,7 +364,7 @@ public class SpotifyRepository {
 
 
 
-                Album album1 = null;
+                Album album1 = new Album();
                 for(Album album : albumSongMap.keySet())
                 {
                     List<Song> songList = albumSongMap.get(album);
@@ -383,8 +383,6 @@ public class SpotifyRepository {
                     List<Album> albums = artistAlbumMap.get(artist);
                     for (Album album2 : albums)
                     {
-
-                        assert album1 != null;
                         if(album1.equals(album2))
                         {
                            artist.setLikes(artist.getLikes()+1);
@@ -408,7 +406,7 @@ public class SpotifyRepository {
     }
 
     public String mostPopularArtist() {
-         int max = 0; Artist artistMax = null;
+         int max = 0; Artist artistMax = new Artist();
          for(Artist artist: artists)
          {
              if(artist.getLikes()>max)
@@ -418,14 +416,14 @@ public class SpotifyRepository {
              }
          }
 
-        assert artistMax != null;
+
         return artistMax.getName();
     }
 
     public String mostPopularSong() {
 
         int max =0;
-        Song songMax = null;
+        Song songMax = new Song();
 
         for(Song song : songs)
         {
@@ -436,7 +434,7 @@ public class SpotifyRepository {
             }
         }
 
-        assert songMax != null;
+
         return songMax.getTitle();
     }
 }
