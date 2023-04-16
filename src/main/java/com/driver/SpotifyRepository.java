@@ -51,71 +51,75 @@ public class SpotifyRepository {
 
     public Album createAlbum(String title, String artistName) {
 
-        Artist artist1 = null;
-       for(Artist artist: artists)
+        Album album = new Album(title);
+        albums.add(album);
+        boolean artistFound = false;
+
+        //check if artist is in databse-- if yes
+       for(Artist artist : artists)
        {
            if(artist.getName().equals(artistName))
            {
-               artist1 = artist;
+               artistFound = true;
+               if(artistAlbumMap.containsKey(artist))
+               {
+                   artistAlbumMap.get(artist).add(album);
+               }
+               else
+               {
+                   List<Album> list = new ArrayList<>();
+                   list.add(album);
+                   artistAlbumMap.put(artist,list);
+               }
            }
        }
 
-       if(artist1.equals(null))
-       {
-           artist1 = new Artist(artistName);
-           artists.add(artist1);
-       }
 
-       Album album = new Album(title);
-
-       if(artistAlbumMap.containsKey(artist1))
+       //if artist not present in database
+       if(artistFound==false)
        {
-           artistAlbumMap.get(artist1).add(album);
-       }
-       else
-       {
+           Artist artist = new Artist(artistName);
+           artists.add(artist);
            List<Album> list = new ArrayList<>();
            list.add(album);
-           artistAlbumMap.put(artist1,list);
+           artistAlbumMap.put(artist,list);
        }
 
        return album;
-
     }
 
     public Song createSong(String title, String albumName, int length) throws Exception{
 
         Song song =new Song(title,length);
         songs.add(song);
-        Album albumN = new Album();
+        boolean isAlbumFound = false;
+
+        //Create and add the song to respective album
         for(Album album : albums)
         {
             if(album.getTitle().equals(albumName))
             {
-                albumN = album;
+               isAlbumFound = true;
+
+                if(albumSongMap.containsKey(album))
+                {
+                    albumSongMap.get(album).add(song);
+                }
+                else
+                {
+                    List<Song> list = new ArrayList<>();
+                    list.add(song);
+                    albumSongMap.put(album,list);
+                }
+
             }
         }
 
-        if(albumN==null)
+        //If the album does not exist in database, throw "Album does not exist" exception
+        if(!isAlbumFound)
         {
             throw new Exception("Album does not exist");
         }
-
-        if(albumSongMap.containsKey(albumN))
-        {
-            albumSongMap.get(albumN).add(song);
-        }
-        else
-        {
-            if(albumN!=null)
-            {
-                List<Song> list = new ArrayList<>();
-                list.add(song);
-                albumSongMap.put(albumN,list);
-            }
-        }
-
-
 
         return song;
     }
