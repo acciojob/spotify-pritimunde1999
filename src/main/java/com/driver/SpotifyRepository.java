@@ -384,6 +384,7 @@ public class SpotifyRepository {
                     for (Album album2 : albums)
                     {
 
+                        assert album1 != null;
                         if(album1.equals(album2))
                         {
                            artist.setLikes(artist.getLikes()+1);
@@ -417,7 +418,8 @@ public class SpotifyRepository {
              }
          }
 
-         return artistMax.getName();
+        assert artistMax != null;
+        return artistMax.getName();
     }
 
     public String mostPopularSong() {
@@ -434,6 +436,7 @@ public class SpotifyRepository {
             }
         }
 
+        assert songMax != null;
         return songMax.getTitle();
     }
 }
