@@ -296,6 +296,7 @@ public class SpotifyRepository {
                                 isUserListener = true;
                                 return playlist;
                             }
+
                             playlistListenerMap.get(playlist).add(user);
                         }
                         else
@@ -308,9 +309,17 @@ public class SpotifyRepository {
 
                         if(isUserFound)
                         {
-                            List<Playlist> list1 = userPlaylistMap.get(user);
-                            list1.add(playlist);
-                            userPlaylistMap.put(user,list1);
+                            if(userPlaylistMap.containsKey(user))
+                            {
+                                userPlaylistMap.get(user).add(playlist);
+                            }
+                            else
+                            {
+                                List<Playlist> list1 = userPlaylistMap.get(user);
+                                list1.add(playlist);
+                                userPlaylistMap.put(user,list1);
+                            }
+
                         }
 
                         return playlist;
@@ -343,6 +352,9 @@ public class SpotifyRepository {
         boolean isUserfound = false;
         boolean isSongfound = false;
         boolean isUserAlreadyLikeSong = false;
+
+
+
 
 
         for(User user: users)
@@ -383,16 +395,16 @@ public class SpotifyRepository {
 
                         for(Album album: albumSongMap.keySet())
                         {
-                           if(albumSongMap.get(album).contains(songTitle))
-                           {
-                               for(Artist artist : artistAlbumMap.keySet())
-                               {
-                                   if(artistAlbumMap.get(artist).contains(album))
-                                   {
-                                       artist.setLikes(artist.getLikes()+1);
-                                   }
-                               }
-                           }
+                            if(albumSongMap.get(album).contains(songTitle))
+                            {
+                                for(Artist artist : artistAlbumMap.keySet())
+                                {
+                                    if(artistAlbumMap.get(artist).contains(album))
+                                    {
+                                        artist.setLikes(artist.getLikes()+1);
+                                    }
+                                }
+                            }
                         }
 
                         return song;
@@ -412,8 +424,9 @@ public class SpotifyRepository {
             throw new Exception("Song does not exist");
         }
 
-
         return null;
+
+
 
     }
 
