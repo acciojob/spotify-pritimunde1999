@@ -354,63 +354,13 @@ public class SpotifyRepository {
         boolean isUserAlreadyLikeSong = false;
 
 
-
-
-
-        for(User user: users)
+        User userLike = null;
+        for(User user : users)
         {
             if(user.getMobile().equals(mobile))
             {
                 isUserfound = true;
-
-                for(Song song:songs)
-                {
-                    if(song.getTitle().equals(songTitle))
-                    {
-                        isSongfound = true;
-
-
-                        if(songLikeMap.containsKey(song))
-                        {
-                            //A song can be liked by a user only once. If a user tried to like a song multiple times, do nothing
-                            if(songLikeMap.get(song).contains(user))
-                            {
-                                isUserAlreadyLikeSong = true;
-                                return song;
-                            }
-                            else
-                            {
-                                song.setLikes(song.getLikes()+1);
-                                songLikeMap.get(song).add(user);
-                            }
-                        }
-                        else
-                        {
-                            List<User> list = new ArrayList<>();
-                            list.add(user);
-                            song.setLikes(song.getLikes()+1);
-                            songLikeMap.put(song,list);
-                        }
-
-
-                        for(Album album: albumSongMap.keySet())
-                        {
-                            if(albumSongMap.get(album).contains(songTitle))
-                            {
-                                for(Artist artist : artistAlbumMap.keySet())
-                                {
-                                    if(artistAlbumMap.get(artist).contains(album))
-                                    {
-                                        artist.setLikes(artist.getLikes()+1);
-                                    }
-                                }
-                            }
-                        }
-
-                        return song;
-
-                    }
-                }
+                userLike = user;
             }
         }
 
@@ -419,14 +369,67 @@ public class SpotifyRepository {
             throw new Exception("User does not exist");
         }
 
+
+        Song songLike= null;
+        for(Song song: songs)
+        {
+            if(song.getTitle().equals(songTitle))
+            {
+                isSongfound = true;
+                songLike = song;
+            }
+        }
+
         if(!isSongfound)
         {
             throw new Exception("Song does not exist");
         }
 
-        return null;
+
+        if(isSongfound==true && isUserfound==true)
+        {
+            if(songLikeMap.containsKey(songLike))
+            {
+                if(songLikeMap.get(songLike).contains(userLike))
+                {
+                    isUserAlreadyLikeSong = true;
+                    return songLike;
+                }
+                else
+                {
+                    songLike.setLikes(songLike.getLikes()+1);
+                    songLikeMap.get(songLike).add(userLike);
+                }
+            }
+            else
+            {
+                List<User> userList = new ArrayList<>();
+                userList.add(userLike);
+                songLike.setLikes(songLike.getLikes()+1);
+                songLikeMap.put(songLike,userList);
+            }
 
 
+
+            Album albumLike = null;
+            for (Album album: albumSongMap.keySet())
+            {
+                if(albumSongMap.get(album).contains(songLike))
+                {
+                    albumLike = album;
+                }
+            }
+
+            for (Artist artist: artistAlbumMap.keySet())
+            {
+                if(artistAlbumMap.get(artist).contains(albumLike))
+                {
+                    artist.setLikes(artist.getLikes()+1);
+                }
+            }
+        }
+
+      return songLike;
 
     }
 
