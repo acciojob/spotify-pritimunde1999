@@ -191,17 +191,19 @@ public class SpotifyRepository {
     public Playlist createPlaylistOnName(String mobile, String title, List<String> songTitles) throws Exception {
 
         //If the user does not exist, throw "User does not exist" exception
+        boolean isUserFound = false;
         User user1= null;
         for(User user : users)
         {
             if(user.getMobile().equals(mobile))
             {
+                isUserFound = true;
                 user1 = user;
             }
         }
 
         //user not exist
-        if(user1==null)
+        if(!isUserFound)
         {
             throw new Exception("User does not exist");
         }
@@ -331,6 +333,18 @@ public class SpotifyRepository {
                 List<User> list = new ArrayList<>();
                 list.add(user);
                 playlistListenerMap.put(playlist,list);
+            }
+
+
+            if(userPlaylistMap.containsKey(user))
+            {
+                userPlaylistMap.get(user).add(playlist);
+            }
+            else
+            {
+                List<Playlist> list = new ArrayList<>();
+                list.add(playlist);
+                userPlaylistMap.put(user,list);
             }
         }
 
